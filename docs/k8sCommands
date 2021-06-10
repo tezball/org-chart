@@ -1,0 +1,30 @@
+minikube start
+minikube -p minikube docker-env
+eval $(minikube -p minikube docker-env)
+
+
+mvn clean install
+docker image rm orgchart:0.0.1
+
+docker build -t orgchart:0.0.1 .
+
+kubectl delete -n default deployment orgchart
+
+
+kubectl create deployment orgchart --image orgchart:0.0.1 -o yaml --dry-run=client > k8s/deployment.yaml
+
+# Add imagePullPolicy: Never to above file in containers section
+
+kubectl create service clusterip orgchart --tcp 80:8080 -o yaml --dry-run=client > k8s/service.yaml
+
+kubectl apply -f ./k8s
+
+kubectl get all
+
+kubectl port-forward svc/orgchart 8080:80
+
+minikube stop
+
+---------------
+
+minikube dashboard

@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: org-chart
+  name: org-chart
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: org-chart
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: org-chart
+    spec:
+      containers:
+      - image: org-chart:0.0.1
+        name: org-chart
+        resources: {}
+        imagePullPolicy: Never
+status: {}

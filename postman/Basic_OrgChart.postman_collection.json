@@ -1,0 +1,906 @@
+{
+	"info": {
+		"_postman_id": "a4a655ff-dbb4-44bc-9392-0377a4256beb",
+		"name": "Basic Org Chart",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Org Chart",
+			"item": [
+				{
+					"name": "Given Org Chart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Conatins employees\"] = responseBody.has(\"Pete\") && responseBody.has(\"Barbara\") && responseBody.has(\"Nick\") && responseBody.has(\"Sophie\") && responseBody.has(\"Jonas\")",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableCookies": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "username",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"Pete\": \"Nick\",\n\"Barbara\": \"Nick\",\n\"Nick\": \"Sophie\",\n\"Sophie\": \"Jonas\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/employee/hierarchy",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"employee",
+								"hierarchy"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bad body",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 400\"] = responseCode.code === 400;",
+									"",
+									"pm.test(\"Error Message\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"The payload can't be read, please provide a valid json payload for this endpoint\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableCookies": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "username",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"SomeFiled\":[\"\",\"\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/employee/hierarchy",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"employee",
+								"hierarchy"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "No Auth Header",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 401\"] = responseCode.code === 401;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableCookies": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"Pete\": \"Nick\",\n\"Barbara\": \"Nick\",\n\"Nick\": \"Sophie\",\n\"Sophie\": \"Jonas\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/employee/hierarchy",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"employee",
+								"hierarchy"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "No Org Chart",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 400\"] = responseCode.code === 400;",
+									"",
+									"pm.test(\"Error Message\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"The CEO can't be found. Please add a single CEO\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableCookies": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "username",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/employee/hierarchy",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"employee",
+								"hierarchy"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "N Managers under Sophie",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Conatins employees\"] = responseBody.has(\"Pete\") && responseBody.has(\"Barbara\") && responseBody.has(\"Nick\") && responseBody.has(\"Sophie\") && responseBody.has(\"Jonas\") && responseBody.has(\"A\") && responseBody.has(\"B\") && responseBody.has(\"C\") && responseBody.has(\"X\") && responseBody.has(\"Y\") && responseBody.has(\"Z\")",
+									"",
+									"var jsonData = JSON.parse(responseBody)",
+									"console.log(\"Test\")",
+									"",
+									"",
+									"pm.test(\"Sophie has `A` as staff\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.Jonas.Sophie.A).not.undefined",
+									"});",
+									"",
+									"pm.test(\"Sophie has `X` as staff\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.Jonas.Sophie.X).not.undefined",
+									"});",
+									"",
+									"pm.test(\"Sophie has `Nick` as staff\", function () {",
+									"    var jsonData = pm.response.json();",
+									"     pm.expect(jsonData.Jonas.Sophie.Nick).not.undefined",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "username",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"Pete\": \"Nick\",\n\"Barbara\": \"Nick\",\n\"Nick\": \"Sophie\",\n\"Sophie\": \"Jonas\",\n\"A\": \"Sophie\",\n\"B\": \"A\",\n\"C\": \"A\",\n\"X\": \"Sophie\",\n\"Y\": \"X\",\n\"Z\": \"X\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/employee/hierarchy",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"employee",
+								"hierarchy"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Two CEO",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 400\"] = responseCode.code === 400;",
+									"",
+									"pm.test(\"Error Message\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"The CEO can't be found. Please add a single CEO\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "username",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"Pete\": \"Nick\",\n\"Barbara\": \"Nick\",\n\"Nick\": \"Sophie\",\n\"Sophie\": \"Jonas\",\n\"B\": \"A\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/employee/hierarchy",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"employee",
+								"hierarchy"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "No CEO",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 400\"] = responseCode.code === 400;",
+									"",
+									"pm.test(\"Error Message\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"The CEO can't be found. Please add a single CEO\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "username",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"Pete\": \"Nick\",\n\"Barbara\": \"Nick\",\n\"Nick\": \"Sophie\",\n\"Sophie\": \"Jonas\",\n\"Jonas\": \"Sophie\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/employee/hierarchy",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"employee",
+								"hierarchy"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Find My Boss",
+			"item": [
+				{
+					"name": "Find My Boss one level - Nick",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Conatins employees\"] = !(responseBody.has(\"Pete\")) && !(responseBody.has(\"Barbara\")) && responseBody.has(\"Nick\") && responseBody.has(\"Sophie\") && !(responseBody.has(\"Jonas\"))"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "username",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/employee/Nick/supervisors?depth=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"employee",
+								"Nick",
+								"supervisors"
+							],
+							"query": [
+								{
+									"key": "depth",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Not Found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 400\"] = responseCode.code === 404;",
+									"",
+									"pm.test(\"Error Message\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Unable to find employee Ann in storage\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "username",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/employee/Ann/supervisors",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"employee",
+								"Ann",
+								"supervisors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "No Auth Header",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 401\"] = responseCode.code === 401;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableCookies": true,
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/employee/Nick/supervisors",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"employee",
+								"Nick",
+								"supervisors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find My All the bosses - Pete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Conatins employees\"] = responseBody.has(\"Pete\") && !(responseBody.has(\"Barbara\")) && responseBody.has(\"Nick\") && responseBody.has(\"Sophie\") && responseBody.has(\"Jonas\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "username",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/employee/Pete/supervisors?depth=1000",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"employee",
+								"Pete",
+								"supervisors"
+							],
+							"query": [
+								{
+									"key": "depth",
+									"value": "1000"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Boss -1 - Nick",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Conatins employees\"] = !(responseBody.has(\"Pete\")) && !(responseBody.has(\"Barbara\")) && responseBody.has(\"Nick\") && !(responseBody.has(\"Sophie\")) && !(responseBody.has(\"Jonas\"))"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "username",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/employee/Nick/supervisors?depth=-1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"employee",
+								"Nick",
+								"supervisors"
+							],
+							"query": [
+								{
+									"key": "depth",
+									"value": "-1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CEO Asking for their boss - Jonas",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Conatins employees\"] = !(responseBody.has(\"Pete\")) && !(responseBody.has(\"Barbara\")) && !(responseBody.has(\"Nick\")) && !(responseBody.has(\"Sophie\")) && responseBody.has(\"Jonas\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "username",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/employee/Jonas/supervisors?depth=10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"employee",
+								"Jonas",
+								"supervisors"
+							],
+							"query": [
+								{
+									"key": "depth",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Management",
+			"item": [
+				{
+					"name": "Health",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"employeeName\": \"{{employeeName}}\",\n    \"depth\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/actuator/health",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"actuator",
+								"health"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
